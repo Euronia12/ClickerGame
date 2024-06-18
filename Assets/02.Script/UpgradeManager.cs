@@ -75,8 +75,8 @@ public class UpgradeManager : MonoBehaviour
         UpgradeSlotData slot = dicUpgradeSlot[Define.SlotType.Item][index];
         if (CheckedCanBuy(slot.cost))
         {
-            dataManager.Gold = slot.cost;
-            dataManager.clickPerGold += slot.addValue;
+            dataManager.Gold = -slot.cost;
+            dataManager.upgradeSubPercent += slot.addValue;
             slot.cost *= slot.additionalCost;
             GameManager.instance.OnUIUpdate();
         }
