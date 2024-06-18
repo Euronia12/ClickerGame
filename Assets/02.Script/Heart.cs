@@ -5,18 +5,27 @@ using UnityEngine.Pool;
 
 public class Heart : MonoBehaviour
 {
+    [SerializeField]
     public IObjectPool<GameObject> pool;
     [SerializeField]
     private ParticleSystem ps;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private float duration;
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip audioClip;
+    private void Awake()
     {
-        ps.Play();
+        audioSource = GetComponent<AudioSource>();
+        ParticleSystem.MainModule psMain = ps.main;
+        duration = psMain.duration;
     }
 
-    // Update is called once per frame
-    void Update()
+    public IEnumerator PlayPS()
     {
-        
+        ps.Play();
+        audioSource.PlayOneShot(audioClip);
+        yield return new WaitForSeconds(duration);
+        PoolManager.Instance.pools.Release(this.gameObject);
     }
 }
